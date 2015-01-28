@@ -5,6 +5,8 @@ name_last CHAR(30),
 birth_year INTEGER,
 birth_month INTEGER,
 birth_day INTEGER,
+hometown_id INTEGER,
+current_location_id INTEGER,
 gender VARCHAR2(100),
 PRIMARY KEY (user_id)
 );
@@ -15,22 +17,6 @@ city VARCHAR2(100),
 state CHAR(30),
 country CHAR(30),
 PRIMARY KEY (loc_ID)
-);
-
-CREATE TABLE Hometown(
-user_id INTEGER,
-loc_ID INTEGER,
-PRIMARY KEY (user_id),
-FOREIGN KEY (user_id) REFERENCES Users ON DELETE CASCADE,
-FOREIGN KEY (loc_ID) REFERENCES Location
-);
-
-CREATE TABLE Current_loc(
-user_id INTEGER,
-loc_ID INTEGER,
-PRIMARY KEY (user_id),
-FOREIGN KEY (user_id) REFERENCES Users ON DELETE CASCADE,
-FOREIGN KEY (loc_ID) REFERENCES Location
 );
 
 CREATE TABLE Studies(
@@ -113,18 +99,12 @@ event_host VARCHAR2(100),
 event_type VARCHAR2(100),
 start_time TIMESTAMP(6),
 end_time TIMESTAMP(6),
+location_id INTEGER,
+summary VARCHAR(3000),
 user_id INTEGER NOT NULL,
 event_subtype VARCHAR2(100),
 PRIMARY KEY (event_id),
 FOREIGN KEY (user_id) REFERENCES Users ON DELETE CASCADE
-);
-
-CREATE TABLE Locs(
-event_id INTEGER,
-loc_ID INTEGER,
-summary VARCHAR2(3000),
-FOREIGN KEY (loc_ID) REFERENCES Location,
-FOREIGN KEY (event_id) REFERENCES Events
 );
 
 CREATE TABLE Participants(
