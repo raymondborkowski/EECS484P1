@@ -39,16 +39,7 @@ college_name VARCHAR2(100),
 year INTEGER,
 major CHAR(100),
 degree VARCHAR2(100),
-PRIMARY KEY(studies_id)
-);
-
-CREATE TABLE School(
-user_id INTEGER,
-studies_id INTEGER,
-PRIMARY KEY(user_id, studies_id),
-FOREIGN KEY (user_id) REFERENCES Users ON DELETE CASCADE,
-FOREIGN KEY (studies_id) REFERENCES Studies,
-FOREIGN KEY (user_id) REFERENCES Users ON DELETE CASCADE
+PRIMARY KEY(studies_id, major)
 );
 
 CREATE TABLE Friends(
@@ -56,7 +47,7 @@ user_friend1_id INTEGER,
 user_friend2_id INTEGER,
 PRIMARY KEY(user_friend1_id, user_friend2_id),
 FOREIGN KEY(user_friend1_id) REFERENCES Users ON DELETE CASCADE,
-FOREIGN KEY(user_friend2_id) REFERENCES Users ON DELETE CASCADE
+FOREIGN KEY(user_friend2_id) REFERENCES Users (user_id) ON DELETE CASCADE
 );
 
 
@@ -72,6 +63,7 @@ PRIMARY KEY(photo_id)
 
 CREATE TABLE Album(
 album_id INTEGER,
+owner_id INTEGER,
 album_name VARCHAR2(100),
 created_album TIMESTAMP(6),
 modified_album TIMESTAMP(6),
@@ -106,10 +98,11 @@ CREATE TABLE Message(
 user_send_id INTEGER,
 user_recieve_id INTEGER,
 time_message TIMESTAMP(6),
-PRIMARY KEY(user_send_id, user_recieve_id),
+message VARCHAR2(4000),
+PRIMARY KEY(user_send_id, user_recieve_id, time_message),
 FOREIGN KEY (user_send_id) REFERENCES Users ON DELETE CASCADE,
 FOREIGN KEY (user_recieve_id) REFERENCES Users ON DELETE CASCADE
-);
+); 
 
 CREATE TABLE Events(
 event_id INTEGER,
@@ -134,7 +127,7 @@ FOREIGN KEY (loc_ID) REFERENCES Location,
 FOREIGN KEY (event_id) REFERENCES Events
 );
 
-CREATE TABLE Particpates(
+CREATE TABLE Participants(
 user_id INTEGER,
 event_id INTEGER,
 status CHAR(30),
