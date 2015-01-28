@@ -1,15 +1,14 @@
 DROP TABLE Hometown;
 DROP TABLE Current_loc;
-DROP TABLE School;
 DROP TABLE Friends;
 DROP TABLE Album;
 DROP TABLE Tag;
 DROP TABLE Comments;
 DROP TABLE Locs;
 DROP TABLE Message;
-DROP TABLE Particpates;
+DROP TABLE Participants;
 DROP TABLE Studies;
 DROP TABLE Photo;
 DROP TABLE Location;
-DROP TABLE Users;
 DROP TABLE Events;
+DROP TABLE Users;
