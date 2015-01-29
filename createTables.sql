@@ -6,33 +6,31 @@ birth_year INTEGER,
 birth_month INTEGER,
 birth_day INTEGER,
 gender VARCHAR2(100),
-hometown_location INTEGER,
-current_location INTEGER,
 PRIMARY KEY (user_id)
 );
 
 CREATE TABLE Location(
 loc_ID INTEGER,
 city VARCHAR2(100),
-state CHAR(30),
-country CHAR(30),
+state VARCHAR2(100),
+country VARCHAR2(100),
 PRIMARY KEY (loc_ID)
 );
 
 CREATE TABLE Hometown(
-user_id INTEGER,
-loc_ID INTEGER,
-PRIMARY KEY (user_id),
-FOREIGN KEY (user_id) REFERENCES Users ON DELETE CASCADE,
-FOREIGN KEY (loc_ID) REFERENCES Location
-);
+  user_id INTEGER,
+  loc_id INTEGER,
+  PRIMARY KEY (user_id),
+  FOREIGN KEY (user_id) REFERENCES Users,
+  FOREIGN KEY (loc_id) REFERENCES Location
+  );
 
-CREATE TABLE Current_loc(
-user_id INTEGER,
-loc_ID INTEGER,
-PRIMARY KEY (user_id),
-FOREIGN KEY (user_id) REFERENCES Users ON DELETE CASCADE,
-FOREIGN KEY (loc_ID) REFERENCES Location
+CREATE TABLE current_location(
+  user_id INTEGER,
+  loc_ID INTEGER,
+  PRIMARY KEY (user_id),
+  FOREIGN KEY (user_id) REFERENCES Users,
+  FOREIGN KEY (loc_ID) REFERENCES Location
 );
 
 CREATE TABLE Studies(
@@ -49,8 +47,9 @@ user_friend1_id INTEGER,
 user_friend2_id INTEGER,
 PRIMARY KEY(user_friend1_id, user_friend2_id),
 FOREIGN KEY(user_friend1_id) REFERENCES Users ON DELETE CASCADE,
-FOREIGN KEY(user_friend2_id) REFERENCES Users ON DELETE CASCADE
+FOREIGN KEY(user_friend2_id) REFERENCES Users (user_id) ON DELETE CASCADE
 );
+
 
 CREATE TABLE Photo(
 photo_id INTEGER,
@@ -64,12 +63,13 @@ PRIMARY KEY(photo_id)
 
 CREATE TABLE Album(
 album_id INTEGER,
+owner_id INTEGER,
 album_name VARCHAR2(100),
 created_album TIMESTAMP(6),
 modified_album TIMESTAMP(6),
 link_album VARCHAR2(4000),
 visible_album VARCHAR2(100),
-cover_photo_id INTEGER NOT NULL, /*naming convention*/
+photo_id INTEGER NOT NULL, /*naming convention*/
 PRIMARY KEY(album_id)
 );
 
@@ -98,11 +98,11 @@ CREATE TABLE Message(
 user_send_id INTEGER,
 user_recieve_id INTEGER,
 time_message TIMESTAMP(6),
-message VARCHAR2(4000)
+message VARCHAR2(4000),
 PRIMARY KEY(user_send_id, user_recieve_id, time_message),
 FOREIGN KEY (user_send_id) REFERENCES Users ON DELETE CASCADE,
 FOREIGN KEY (user_recieve_id) REFERENCES Users ON DELETE CASCADE
-);
+); 
 
 CREATE TABLE Events(
 event_id INTEGER,
@@ -124,19 +124,18 @@ PRIMARY KEY (event_id),
 FOREIGN KEY (user_id) REFERENCES Users ON DELETE CASCADE
 );
 
-CREATE TABLE Locs(
-event_id INTEGER,
-loc_ID INTEGER,
-summary VARCHAR2(3000),
-FOREIGN KEY (loc_ID) REFERENCES Location,
-FOREIGN KEY (event_id) REFERENCES Events
-);
-
 CREATE TABLE Participants(
 user_id INTEGER,
 event_id INTEGER,
 status CHAR(30),
 PRIMARY KEY (user_id, event_id),
 FOREIGN KEY (user_id) REFERENCES Users ON DELETE CASCADE,
+FOREIGN KEY (event_id) REFERENCES Events
+);
+CREATE TABLE Locs(
+event_id INTEGER,
+loc_ID INTEGER,
+summary VARCHAR2(3000),
+FOREIGN KEY (loc_ID) REFERENCES Location,
 FOREIGN KEY (event_id) REFERENCES Events
 );
